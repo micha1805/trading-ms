@@ -27,8 +27,12 @@ public class SecurityConfiguration {
                 .disable()
                 .authorizeHttpRequests()
                 // WHITE LIST, everything forn there is accepted :
-                .requestMatchers("/api/v1/auth/**")
-                .permitAll()
+                .requestMatchers(
+                        "/api/v1/auth/**",
+                        "/v3/api-docs/**",
+                        "/swagger-ui.html",
+                        "/swagger-ui/**"
+                ).permitAll()
                 // BUT any other request should be authenticated
                 .anyRequest()
                 .authenticated()
