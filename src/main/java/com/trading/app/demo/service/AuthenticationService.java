@@ -51,19 +51,19 @@ public class AuthenticationService {
                 .build();
     }
 
-    public AuthenticationResponse login(LoginRequest request) {
+    public AuthenticationResponseDTO login(String email, String password) {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            request.getEmail(),
-                            request.getPassword()
+                            email,
+                            password
                     )
             );
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
-        User user = userRepository.findByEmail(request.getEmail())
+        User user = userRepository.findByEmail(email)
                 .orElseThrow();
 
         var jwtToken = jwtService.generateToken(user);
