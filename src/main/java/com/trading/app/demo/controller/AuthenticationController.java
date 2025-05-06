@@ -19,11 +19,10 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponseDTO> login(
-            @RequestParam @NotBlank(message = "Email is required") @Email(message = "Invalid email format") String email,
-            @RequestParam @NotBlank(message = "Password is required") String password) {
-        return ResponseEntity.ok(authenticationService.login(email, password));
+    public ResponseEntity<AuthenticationResponseDTO> login(@RequestBody LoginRequestDTO loginRequest){
+        return ResponseEntity.ok(authenticationService.login(loginRequest));
     }
+
 
     @PostMapping(path="/signup")
     public ResponseEntity<AuthenticationResponseDTO> signup(@RequestBody SignupRequestDTO signupRequest){
