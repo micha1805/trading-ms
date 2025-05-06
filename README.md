@@ -18,7 +18,7 @@ This is an ongoing demo project, not suitable for production yet.
 
 | Method | Secured | Route                        | Description                                                                                  |
 |--------|---------|------------------------------|----------------------------------------------------------------------------------------------|
-| GET    | ❌       | /api/v1/auth/login           | Login                                                                                        |
+| POST   | ❌       | /api/v1/auth/login           | Login                                                                                        |
 | POST   | ❌       | /api/v1/auth/signup          | Signup                                                                                       |
 | PUT    | ✅       | /api/v1/user/update          | Update user's profile (except balance)                                                       |
 | GET    | ✅       | /api/v1/user/currentBalance  | Return current balance (all the money that is NOT in an open position)                       |
@@ -35,7 +35,7 @@ This is an ongoing demo project, not suitable for production yet.
 
 ### Requests and responses format
 
-#### GET /api/v1/auth/login
+#### POST /api/v1/auth/login
 **Request:**
 ```json
 {

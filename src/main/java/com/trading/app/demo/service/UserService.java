@@ -1,6 +1,6 @@
 package com.trading.app.demo.service;
 
-import com.trading.app.demo.httpresponsesformat.CurrentBalanceResponse;
+import com.trading.app.demo.dtos.CurrentBalanceResponseDTO;
 import com.trading.app.demo.model.Trade;
 import com.trading.app.demo.model.User;
 import com.trading.app.demo.model.Wire;
@@ -9,9 +9,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -19,11 +21,9 @@ public class UserService {
     private final UserRepository userRepository;
     private final JwtService jwtService;
 
-
     public List<User> getUsers(){return userRepository.findAll();};
 
     public User getUserById(Long userId){
-
         return userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalStateException(
                         "User with Id=" + userId + " does not exist"
@@ -34,8 +34,8 @@ public class UserService {
         userRepository.save(user);
     }
 
+    @Transactional(readOnly = true)
     public Integer getCurrentBalance(User user){
-
         int currentBalance = 0;
 
         int depositsTotal = user.getWires().stream()
@@ -62,16 +62,20 @@ public class UserService {
         Optional<User> currentUser = userRepository
                 .findByEmail(jwtService.extractUsername(authHeader.substring(7)));
 
-        User user;
-
         if(currentUser.isPresent()){
-            user = currentUser.get();
-            return user;
+            return currentUser.get();
         }else{
             throw new IllegalArgumentException("User not found");
         }
     }
 
+    public User getUserFromHeaderWithTradesAndWires(String authHeader) {
+        String email = jwtService.extractUsername(authHeader.substring(7));
+        return userRepository.findByEmailWithTradesAndWires(email)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    }
+
+    @Transactional(readOnly = true)
     public Integer getClosedPnl(User user){
         return user.getTrades()
                 .stream().filter(t -> !t.isOpen())
@@ -79,12 +83,11 @@ public class UserService {
                 .sum();
     }
 
+    @Transactional(readOnly = true)
     public Integer getOpenPnl(User user){
         return user.getTrades()
                 .stream().filter(t -> t.isOpen())
                 .mapToInt(Trade::getOpenPNL)
                 .sum();
     }
-
-
 }

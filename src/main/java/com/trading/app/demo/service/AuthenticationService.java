@@ -1,8 +1,8 @@
 package com.trading.app.demo.service;
 
-import com.trading.app.demo.httprequestsformat.LoginRequest;
-import com.trading.app.demo.httprequestsformat.SignupRequest;
-import com.trading.app.demo.httpresponsesformat.AuthenticationResponse;
+import com.trading.app.demo.dtos.LoginRequestDTO;
+import com.trading.app.demo.dtos.SignupRequestDTO;
+import com.trading.app.demo.dtos.AuthenticationResponseDTO;
 import com.trading.app.demo.model.Profile;
 import com.trading.app.demo.model.Role;
 import com.trading.app.demo.model.User;
@@ -25,7 +25,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse signup(SignupRequest request) {
+    public AuthenticationResponseDTO signup(SignupRequestDTO request) {
         User user = User.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
@@ -46,12 +46,12 @@ public class AuthenticationService {
 
 
         String jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
+        return AuthenticationResponseDTO.builder()
                 .token(jwtToken )
                 .build();
     }
 
-    public AuthenticationResponse login(LoginRequest request) {
+    public AuthenticationResponseDTO login(LoginRequestDTO request) {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -67,7 +67,7 @@ public class AuthenticationService {
                 .orElseThrow();
 
         var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
+        return AuthenticationResponseDTO.builder()
                 .token(jwtToken )
                 .build();
     }

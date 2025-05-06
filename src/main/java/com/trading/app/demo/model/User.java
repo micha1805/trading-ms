@@ -1,26 +1,25 @@
 package com.trading.app.demo.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-@Data // for the getters and setters and toString method
-@Builder // to get the builders
-@NoArgsConstructor // to get the no arg constructor
-@AllArgsConstructor //to get the all arg constructor
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 // IMPORTANT : Table MUST be renamed because user is a reserved keyword in Postgresql
 @Table(name="users")
 public class User implements UserDetails {
-
 
     @Id
     @SequenceGenerator(
@@ -45,17 +44,23 @@ public class User implements UserDetails {
     // RELATIONSHIPS
     // One-to-one relationship with Profile
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Profile profile;
 
     // One-to-many relationship with Wire
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Wire> wires;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @Builder.Default
+    private Set<Wire> wires = new HashSet<>();
 
     // One-to-many relationship with Trade
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Trade> trades;
-
-
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @Builder.Default
+    private Set<Trade> trades = new HashSet<>();
 
     // The following methods come from UserDetails interface
     @Override
@@ -88,4 +93,12 @@ public class User implements UserDetails {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", role=" + role +
+                '}';
+    }
 }

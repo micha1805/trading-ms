@@ -1,7 +1,7 @@
 package com.trading.app.demo.controller;
 
-import com.trading.app.demo.httprequestsformat.UserUpdateRequest;
-import com.trading.app.demo.httpresponsesformat.CurrentBalanceResponse;
+import com.trading.app.demo.dtos.UserUpdateRequestDTO;
+import com.trading.app.demo.dtos.CurrentBalanceResponseDTO;
 import com.trading.app.demo.model.User;
 import com.trading.app.demo.service.ProfileService;
 import com.trading.app.demo.service.UserService;
@@ -37,7 +37,7 @@ public class UserController {
     }
 
     @PutMapping
-    public void updateUser(@RequestBody UserUpdateRequest request, @RequestHeader("Authorization") String authHeader) {
+    public void updateUser(@RequestBody UserUpdateRequestDTO request, @RequestHeader("Authorization") String authHeader) {
 
         // TODO
         //  - if no user found
@@ -56,10 +56,9 @@ public class UserController {
     }
 
     @GetMapping(path = "/currentBalance")
-    public ResponseEntity<CurrentBalanceResponse> currentBalance(@RequestHeader("Authorization") String authHeader) {
-
-        User user = userService.getUserFromHeader(authHeader);
-        CurrentBalanceResponse response = CurrentBalanceResponse.builder()
+    public ResponseEntity<CurrentBalanceResponseDTO> currentBalance(@RequestHeader("Authorization") String authHeader) {
+        User user = userService.getUserFromHeaderWithTradesAndWires(authHeader);
+        CurrentBalanceResponseDTO response = CurrentBalanceResponseDTO.builder()
                 .currentBalanceInCent(userService.getCurrentBalance(user))
                 .build();
         return ResponseEntity.ok(response);

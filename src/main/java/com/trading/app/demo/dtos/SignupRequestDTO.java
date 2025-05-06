@@ -1,9 +1,9 @@
-package com.trading.app.demo.httprequestsformat;
+package com.trading.app.demo.dtos;
 
 import lombok.Data;
 
 @Data
-public class SignupRequest {
+public class SignupRequestDTO {
     private String email;
     private String password;
     private String first_name; // naming convention to fit JSON

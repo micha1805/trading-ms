@@ -1,11 +1,10 @@
 package com.trading.app.demo.controller;
 
-import com.trading.app.demo.httpresponsesformat.FullProfileResponse;
+import com.trading.app.demo.dtos.FullProfileResponseDTO;
 import com.trading.app.demo.model.Profile;
 import com.trading.app.demo.model.User;
 import com.trading.app.demo.service.ProfileService;
 import com.trading.app.demo.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/v1/profile")
@@ -24,15 +22,15 @@ public class ProfileController {
     private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<FullProfileResponse> getProfile(@RequestHeader("Authorization") String authHeader) {
+    public ResponseEntity<FullProfileResponseDTO> getProfile(@RequestHeader("Authorization") String authHeader) {
 
         // should take care of the case when no user is found:
         User user = userService.getUserFromHeader(authHeader);
-        FullProfileResponse response;
+        FullProfileResponseDTO response;
         Profile profile = profileService.findByUserId(user.getId());
 
         // building the response object:
-        response = FullProfileResponse.builder()
+        response = FullProfileResponseDTO.builder()
                 .email(user.getEmail())
                 .firstName(profile.getFirstName())
                 .lastName(profile.getLastName())

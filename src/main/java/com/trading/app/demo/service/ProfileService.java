@@ -1,15 +1,11 @@
 package com.trading.app.demo.service;
 
-import com.trading.app.demo.httprequestsformat.UserUpdateRequest;
+import com.trading.app.demo.dtos.UserUpdateRequestDTO;
 import com.trading.app.demo.model.Profile;
 import com.trading.app.demo.model.User;
 import com.trading.app.demo.repository.ProfileRepository;
 import com.trading.app.demo.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +21,7 @@ public class ProfileService {
                     .orElseThrow(() -> new IllegalStateException("Profile with Id=" + userId + " does not exist" ));
     }
 
-    public void updateFullProfile(Long userId, UserUpdateRequest updateInfo) {
+    public void updateFullProfile(Long userId, UserUpdateRequestDTO updateInfo) {
         // find User
 
         User user = userRepository.findById(userId)

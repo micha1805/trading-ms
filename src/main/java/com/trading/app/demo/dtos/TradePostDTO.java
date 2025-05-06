@@ -1,9 +1,9 @@
-package com.trading.app.demo.httprequestsformat;
+package com.trading.app.demo.dtos;
 
 import lombok.Data;
 
 @Data
-public class TradePost {
+public class TradePostDTO {
     private Integer quantity;
     private String symbol;
 }

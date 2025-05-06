@@ -5,7 +5,6 @@ import com.trading.app.demo.service.TradeService;
 import jakarta.persistence.*;
 import lombok.*;
 import org.apache.commons.lang3.builder.ToStringExclude;
-import org.hibernate.annotations.Table;
 
 import java.time.LocalDateTime;
 
@@ -14,12 +13,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Entity
+@Table(name = "trades")
 public class Trade {
 
     //FIELDS
     @Id
     @SequenceGenerator(
-            name = "trade_sequence+generator",
+            name = "trade_sequence_generator",
             sequenceName = "trade_sequence",
             allocationSize = 1
     )
