@@ -1,4 +1,4 @@
-package com.trading.app.demo.httpresponsesformat;
+package com.trading.app.demo.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AuthenticationResponse {
-    private String token;
+public class OpenPNLResponseDTO {
+    private Integer openPnlInCent;
 }

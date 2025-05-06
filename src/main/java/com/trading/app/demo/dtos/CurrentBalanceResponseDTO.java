@@ -1,4 +1,4 @@
-package com.trading.app.demo.httpresponsesformat;
+package com.trading.app.demo.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ClosedPNLResponse {
-    private Integer closedPnlInCent;
+public class CurrentBalanceResponseDTO {
+    private Integer currentBalanceInCent;
 }

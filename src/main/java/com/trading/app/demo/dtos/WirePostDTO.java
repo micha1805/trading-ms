@@ -1,10 +1,10 @@
-package com.trading.app.demo.httprequestsformat;
+package com.trading.app.demo.dtos;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Data
 @RequiredArgsConstructor
-public class WirePost {
+public class WirePostDTO {
     private Integer amount_in_cent;
 }

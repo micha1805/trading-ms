@@ -1,5 +1,6 @@
-package com.trading.app.demo.httpresponsesformat;
+package com.trading.app.demo.dtos;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.trading.app.demo.model.Trade;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,6 +13,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ClosedTradesResponse {
+public class TradeIndexResponseDTO {
+
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<Trade> trades;
 }

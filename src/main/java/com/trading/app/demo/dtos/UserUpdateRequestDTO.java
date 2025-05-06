@@ -1,4 +1,4 @@
-package com.trading.app.demo.httprequestsformat;
+package com.trading.app.demo.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserUpdateRequest {
+public class UserUpdateRequestDTO {
     private String email;
     private String password;
     private String first_name;

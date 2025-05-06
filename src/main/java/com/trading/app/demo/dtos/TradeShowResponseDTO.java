@@ -1,5 +1,6 @@
-package com.trading.app.demo.httpresponsesformat;
+package com.trading.app.demo.dtos;
 
+import com.trading.app.demo.model.Trade;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OpenPNLResponse {
-    private Integer openPnlInCent;
+public class TradeShowResponseDTO {
+    private Trade trade;
 }

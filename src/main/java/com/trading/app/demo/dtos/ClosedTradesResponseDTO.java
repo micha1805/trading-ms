@@ -1,4 +1,4 @@
-package com.trading.app.demo.httpresponsesformat;
+package com.trading.app.demo.dtos;
 
 import com.trading.app.demo.model.Trade;
 import lombok.AllArgsConstructor;
@@ -12,6 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OpenTradesResponse {
+public class ClosedTradesResponseDTO {
     private List<Trade> trades;
 }

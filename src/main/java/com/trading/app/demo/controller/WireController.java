@@ -1,6 +1,6 @@
 package com.trading.app.demo.controller;
 
-import com.trading.app.demo.httprequestsformat.WirePost;
+import com.trading.app.demo.dtos.WirePostDTO;
 import com.trading.app.demo.model.User;
 import com.trading.app.demo.model.Wire;
 import com.trading.app.demo.repository.WireRepository;
@@ -23,7 +23,7 @@ public class WireController {
     private final WireRepository wireRepository;
 
     @PostMapping
-    public ResponseEntity<String> createWire(@RequestBody WirePost request, @RequestHeader("Authorization") String authHeader){
+    public ResponseEntity<String> createWire(@RequestBody WirePostDTO request, @RequestHeader("Authorization") String authHeader){
 
         User user = userService.getUserFromHeader(authHeader);
         Wire newWire = Wire.builder()
