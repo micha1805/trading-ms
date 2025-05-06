@@ -10,10 +10,13 @@ import com.trading.app.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,13 +32,13 @@ public class TradeController {
     public ResponseEntity<TradeIndexResponseDTO> tradeIndex(@RequestHeader("Authorization") String authHeader){
 
         User user = userService.getUserFromHeader(authHeader);
-        List<Trade> trades = user.getTrades();
+        Set<Trade> trades = user.getTrades();
 
-        TradeIndexResponseDTO response = TradeIndexResponseDTO.builder().trades(trades).build();
+        TradeIndexResponseDTO response = TradeIndexResponseDTO.builder()
+                .trades(new ArrayList<>(trades))
+                .build();
 
-        ResponseEntity<TradeIndexResponseDTO> respEntity = ResponseEntity.ok(response);
-
-        return respEntity;
+        return ResponseEntity.ok(response);
 
     }
 
@@ -121,16 +124,18 @@ public class TradeController {
 
 
     @GetMapping(path = "/closedPNL")
+    @Transactional(readOnly = true)
     public ResponseEntity<ClosedPNLResponseDTO> closedPNL(@RequestHeader("Authorization") String authHeader){
-        User user = userService.getUserFromHeader(authHeader);
+        User user = userService.getUserFromHeaderWithTradesAndWires(authHeader);
         Integer closedPNL = userService.getClosedPnl(user);
 
         return ResponseEntity.ok(ClosedPNLResponseDTO.builder().closedPnlInCent(closedPNL*100).build());
     }
 
     @GetMapping(path = "/openPNL")
+    @Transactional(readOnly = true)
     public ResponseEntity<OpenPNLResponseDTO> openPNL(@RequestHeader("Authorization") String authHeader){
-        User user = userService.getUserFromHeader(authHeader);
+        User user = userService.getUserFromHeaderWithTradesAndWires(authHeader);
         Integer openPNL = userService.getOpenPnl(user);
 
         return ResponseEntity.ok(OpenPNLResponseDTO.builder().openPnlInCent(openPNL*100).build());

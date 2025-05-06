@@ -17,4 +17,13 @@ public interface UserRepository
     @Query("SELECT s from User s where s.email=?1")
     Optional<User> findByEmail(String email);
 
+    @Query("SELECT u FROM User u LEFT JOIN FETCH u.trades WHERE u.email = ?1")
+    Optional<User> findByEmailWithTrades(String email);
+
+    @Query("SELECT DISTINCT u FROM User u " +
+           "LEFT JOIN FETCH u.trades " +
+           "LEFT JOIN FETCH u.wires " +
+           "WHERE u.email = ?1")
+    Optional<User> findByEmailWithTradesAndWires(String email);
+
 }

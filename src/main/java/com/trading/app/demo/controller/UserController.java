@@ -57,8 +57,7 @@ public class UserController {
 
     @GetMapping(path = "/currentBalance")
     public ResponseEntity<CurrentBalanceResponseDTO> currentBalance(@RequestHeader("Authorization") String authHeader) {
-
-        User user = userService.getUserFromHeader(authHeader);
+        User user = userService.getUserFromHeaderWithTradesAndWires(authHeader);
         CurrentBalanceResponseDTO response = CurrentBalanceResponseDTO.builder()
                 .currentBalanceInCent(userService.getCurrentBalance(user))
                 .build();

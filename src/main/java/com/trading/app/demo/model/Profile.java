@@ -1,15 +1,15 @@
 package com.trading.app.demo.model;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-@Table
+@Table(name = "profiles")
 public class Profile {
 
     //FIELDS
@@ -42,5 +42,17 @@ public class Profile {
     // IMPORTANT : if absent infinite loop between user and profile
     // while calling toString
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private User user;
+
+    @Override
+    public String toString() {
+        return "Profile{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", address='" + address + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                '}';
+    }
 }
